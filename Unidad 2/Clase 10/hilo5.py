@@ -15,5 +15,5 @@ class Hilo5(threading.Thread):
     def infinito(self, ):
         while True:
             logging.debug('Esto se escribe infinitamente')
-            time.sleep(2)
+            time.sleep(5)
         return
