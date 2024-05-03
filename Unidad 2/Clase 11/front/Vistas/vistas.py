@@ -44,14 +44,11 @@ class Vista:
         self.labelEstiloOculto = tkinter.Label(self.root, text="")
         self.labelEstiloOculto.grid(column=0, row=8, columnspan=2)
 
-
-        # Crear una instancia de Controladores y pasar la referencia de la vista
         self.controladores = Controladores(self)
 
         self.botonDiligenciar = tkinter.Button(self.root, text="Diligenciar", command=self.controladores.diligenciar)
         self.botonDiligenciar.grid(column=0, row=11, columnspan=2, padx=15, pady=15)
 
-        # Vincular los eventos a los métodos de Controladores
         self.txtMaterial.bind("<KeyRelease>", lambda event: self.controladores.validar_material(event, self.txtMaterial))
         self.txtAltura.bind("<KeyRelease>", lambda event: self.controladores.validar_altura(event, self.txtAltura))
         self.txtEstilo.bind("<KeyRelease>", lambda event: self.controladores.validar_estilo(event, self.txtEstilo))

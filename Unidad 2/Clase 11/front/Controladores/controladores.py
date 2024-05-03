@@ -37,7 +37,6 @@ class Controladores:
         else:
             self.vista.labelEstiloOculto.config(text="")
 
-    # Quita el argumento event de esta función
     def diligenciar(self):
         material = self.vista.txtMaterial.get()
         altura = self.vista.txtAltura.get()
@@ -75,4 +74,3 @@ class Controladores:
         response = requests.post("http://localhost:8000/v1/silla", data=data)
         print(response.status_code)
         print(response.content)
-
