@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from .views.cliente_view import *
+from .views.servicio_view import *
 
 app_name = 'api'
 
@@ -24,5 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/cliente', Cliente_APIView.as_view()), 
     path('v1/cliente/<int:pk>/', Cliente_APIView_Detail.as_view()),
+    path('admin/', admin.site.urls),
+    path('v1/servicio', Servicio_APIView.as_view()), 
+    path('v1/servicio/<int:pk>/', Servicio_APIView_Detail.as_view()),
 ]
 
