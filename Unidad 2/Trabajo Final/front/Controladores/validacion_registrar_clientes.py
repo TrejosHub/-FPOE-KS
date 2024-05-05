@@ -1,10 +1,12 @@
 import tkinter.messagebox as messagebox
 import requests
+from Modelos.cliente import Clientes
 
 class ValidarRegistarClientes:
     def __init__(self, vista):
         self.vista = vista
-    
+        self.cliente = Clientes("", "", "", "", "")
+
     def validar_nombre(self, event, widget):
         nombreValidado = widget.get()
         if not nombreValidado.isalpha():
@@ -72,6 +74,12 @@ class ValidarRegistarClientes:
             return
 
         messagebox.showinfo("Éxito", "Diligenciado correctamente.")
+
+        self.cliente.nombre.set(nombre)
+        self.cliente.apellido.set(apellido)
+        self.cliente.cedula.set(cedula)
+        self.cliente.telefono.set(telefono)
+        self.cliente.correo.set(correo)
 
         data = {
             "nombre": nombre,

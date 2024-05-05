@@ -1,8 +1,7 @@
 import tkinter 
 import tkinter.messagebox as messagebox
 from Controladores.controladores import Controlador
-from Vistas.registrar_clientes import InterfazRegistrarCliente  # Importa la clase InterfazRegistrarCliente
-
+from Vistas.registrar_clientes import InterfazRegistrarCliente 
 class Vista:
     def __init__(self):
         self.ventana = tkinter.Tk()        

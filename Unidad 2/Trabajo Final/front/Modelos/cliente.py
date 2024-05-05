@@ -7,4 +7,3 @@ class Clientes:
         self.cedula = tk.StringVar(value=cedula)
         self.telefono = tk.StringVar(value=telefono)
         self.correo = tk.StringVar(value=correo)
-
