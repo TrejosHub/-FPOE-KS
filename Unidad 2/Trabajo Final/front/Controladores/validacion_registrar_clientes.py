@@ -8,15 +8,15 @@ class ValidarRegistarClientes:
         self.cliente = Clientes("", "", "", "", "")
 
     def validar_nombre(self, event, widget):
-        nombreValidado = widget.get()
-        if not nombreValidado.isalpha():
-            self.vista.lblOcultoNombre.config(text="Error: El nombre solo debe contener letras.", fg="red")
+        nombre_validado = widget.get()
+        if not nombre_validado.replace(" ", "").isalpha():
+            self.vista.lblOcultoNombre.config(text="Error: El nombre solo debe contener letras y espacios.", fg="red")
         else:
             self.vista.lblOcultoNombre.config(text="")
 
     def validar_apellido(self, event, widget): 
         apellidoValidado = widget.get()         
-        if not apellidoValidado.isalpha():
+        if not apellidoValidado.replace(" ", "").isalpha():
             self.vista.lblOcultoApellido.config(text="Error: El apellido solo debe contener letras.", fg="red")
         else:
             self.vista.lblOcultoApellido.config(text="")
@@ -53,11 +53,11 @@ class ValidarRegistarClientes:
             messagebox.showerror("Error", "Todos los campos deben estar completos.")
             return
 
-        if not nombre.isalpha():
+        if not nombre.replace(" ", "").isalpha():
             messagebox.showerror("Error", "El nombre solo debe contener letras.")
             return
 
-        if not apellido.isalpha():
+        if not apellido.replace(" ", "").isalpha():
             messagebox.showerror("Error", "El apellido solo debe contener letras.")
             return
 

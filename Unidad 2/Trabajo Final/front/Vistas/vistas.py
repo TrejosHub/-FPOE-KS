@@ -3,6 +3,7 @@ import tkinter.messagebox as messagebox
 from Controladores.controladores import Controlador
 from Vistas.registrar_clientes import InterfazRegistrarCliente
 from Vistas.eliminar_clientes import InterfazEliminarClientes
+from Vistas.registrar_servicio import InterfazRegistrarServicio
 
 class Vista:
     def __init__(self):
@@ -43,13 +44,16 @@ class Vista:
         self.menu.add_cascade(label= "Salir", menu= self.menuSalir)
         self.menuSalir.add_command(label= "Salir", command= lambda: self.controladores.el_usuario_quiere_salir())
 
-        self.lblBienvenida = tkinter.Label(self.ventana, text="Bienvenido al software de Lavelopues S.A.", font=("Arial", 12))
+        self.lblBienvenida = tkinter.Label(self.ventana, text="Bienvenido al software oficial de Lavelopues S.A.", font=("Arial", 12))
         self.lblBienvenida.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
         self.ventana.mainloop()
 
     def registrarCliente(self):
         interfaz_registrar_cliente = InterfazRegistrarCliente(self.menu)
+
+    def registrarServicio(self):
+        interfaz_registrar_servicio = InterfazRegistrarServicio(self.menu)
 
     def borrarCliente(self):
         interfaz_eliminar_cliente = InterfazEliminarClientes(self.menu)
