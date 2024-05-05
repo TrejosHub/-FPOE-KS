@@ -1,7 +1,7 @@
 import tkinter 
 import tkinter.messagebox as messagebox
 from Controladores.controladores import Controlador
-
+from Vistas.registrar_clientes import InterfazRegistrarCliente  # Importa la clase InterfazRegistrarCliente
 
 class Vista:
     def __init__(self):
@@ -42,6 +42,10 @@ class Vista:
         self.menu.add_cascade(label= "Salir", menu= self.menuSalir)
         self.menuSalir.add_command(label= "Salir", command= lambda: self.controladores.el_usuario_quiere_salir())
 
-        messagebox.showinfo("Saludo", "Bienvenido ")
+        self.lblBienvenida = tkinter.Label(self.ventana, text="Bienvenido al software de Lavelopues S.A.", font=("Arial", 12))
+        self.lblBienvenida.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
 
         self.ventana.mainloop()
+
+    def registrarCliente(self):
+        interfaz_registrar_cliente = InterfazRegistrarCliente(self.menu)
