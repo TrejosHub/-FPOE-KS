@@ -1,7 +1,9 @@
 import tkinter 
 import tkinter.messagebox as messagebox
 from Controladores.controladores import Controlador
-from Vistas.registrar_clientes import InterfazRegistrarCliente 
+from Vistas.registrar_clientes import InterfazRegistrarCliente
+from Vistas.eliminar_clientes import InterfazEliminarClientes
+
 class Vista:
     def __init__(self):
         self.ventana = tkinter.Tk()        
@@ -48,3 +50,6 @@ class Vista:
 
     def registrarCliente(self):
         interfaz_registrar_cliente = InterfazRegistrarCliente(self.menu)
+
+    def borrarCliente(self):
+        interfaz_eliminar_cliente = InterfazEliminarClientes(self.menu)
