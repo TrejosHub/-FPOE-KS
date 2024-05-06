@@ -7,7 +7,7 @@ class InterfazRegistrarCliente:
         self.ventana = tk.Toplevel(menu)
         self.ventana.focus_set()
         self.ventana.title("Registrar Cliente")
-        self.ventana.geometry("270x470")
+        self.ventana.geometry("290x490")
         self.ventana.resizable(0, 0)
         self.controladores = ValidarRegistarClientes(self)
         self.crear_interfaz()

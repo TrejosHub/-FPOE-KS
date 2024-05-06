@@ -10,7 +10,7 @@ class ValidarRegistarClientes:
     def validar_nombre(self, event, widget):
         nombre_validado = widget.get()
         if not nombre_validado.replace(" ", "").isalpha():
-            self.vista.lblOcultoNombre.config(text="Error: El nombre solo debe contener letras y espacios.", fg="red")
+            self.vista.lblOcultoNombre.config(text="Error: El nombre solo debe contener letras.", fg="red")
         else:
             self.vista.lblOcultoNombre.config(text="")
 

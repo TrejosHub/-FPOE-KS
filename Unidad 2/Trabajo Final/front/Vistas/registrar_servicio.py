@@ -16,7 +16,7 @@ class InterfazRegistrarServicio:
         self.titulo = tk.Label(self.ventana, text="Registrar Servicio")
         self.titulo.grid(row=0, column=0, columnspan=2)
 
-        self.lblNombreServicio = tk.Label(self.ventana, text="Nombre: ", pady=20, padx=15)
+        self.lblNombreServicio = tk.Label(self.ventana, text="Nombre del Servicio: ", pady=20, padx=15)
         self.lblNombreServicio.grid(row=1, column=0)
         self.txtNombreServicio = tk.Entry(self.ventana, width=20)
         self.txtNombreServicio.grid(row=1, column=1)

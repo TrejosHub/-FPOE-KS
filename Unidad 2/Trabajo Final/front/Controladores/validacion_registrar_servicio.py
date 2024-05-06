@@ -23,11 +23,11 @@ class ValidarRegistarServicios:
 
     def validar_descripcion(self, event, widget):
         descripcionValidada = widget.get()
-        if not descripcionValidada.replace(" ", "").isalpha():
-            self.vista.lblOcultoDescripcion.config(text="Error: La descripción solo debe contener letras.", fg="red")
+        if not descripcionValidada.replace(" ", "").isalnum():
+            self.vista.lblOcultoDescripcion.config(text="Error: La descripción solo debe contener letras, números y/o espacios.", fg="red")
         else:
             self.vista.lblOcultoDescripcion.config(text="")
-    
+
     def validar_valor(self, event, widget):
         valorValidado = widget.get()
         if not valorValidado.isdigit():
@@ -37,11 +37,11 @@ class ValidarRegistarServicios:
 
     def diligenciarServicio(self):
         nombre = self.vista.txtNombreServicio.get()
-        cedula_cliente = self.vista.txtCedulaServicio.get()
+        cedula = self.vista.txtCedulaServicio.get()
         descripcion = self.vista.txtDescripcion.get()
         valor = self.vista.txtValor.get()
 
-        if not (nombre and cedula_cliente and descripcion and valor):
+        if not (nombre and cedula and descripcion and valor):
             messagebox.showerror("Error", "Todos los campos deben estar completos.")
             return
 
@@ -49,12 +49,27 @@ class ValidarRegistarServicios:
             messagebox.showerror("Error", "El nombre solo debe contener letras.")
             return
 
-        if not cedula_cliente.isdigit():
+        if not cedula.isdigit():
             messagebox.showerror("Error", "La cédula debe ser un número.")
             return
-        
-        if not descripcion.replace(" ", "").isalpha():
-            messagebox.showerror("Error", "La descripcion solo debe contener letras.")
+
+        response = requests.get("http://localhost:8000/v1/cliente")
+        if response.status_code != 200:
+            messagebox.showerror("Error", "Error al obtener la lista de clientes.")
+            return
+        clientes = response.json()
+
+        cedula_existe = False
+        for cliente in clientes:
+            if cliente['cedula'] == int(cedula):
+                cedula_existe = True
+                break
+
+        if not cedula_existe:
+            messagebox.showerror("Error", "La cédula ingresada no corresponde a un cliente registrado.")
+            return
+
+        if not descripcion.replace(" ", "").isalnum():
             return
 
         if not valor.isdigit():
@@ -64,13 +79,13 @@ class ValidarRegistarServicios:
         messagebox.showinfo("Éxito", "Diligenciado correctamente.")
 
         self.servicio.nombre_servicio.set(nombre)
-        self.servicio.cedula_cliente.set(cedula_cliente)
+        self.servicio.cedula.set(cedula)
         self.servicio.descripcion.set(descripcion)
         self.servicio.valor.set(valor)
 
         data = {
             "nombre_servicio": nombre,
-            "cedula_cliente": cedula_cliente,
+            "cedula": cedula,
             "descripcion": descripcion,
             "valor": valor
         }
