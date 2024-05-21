@@ -58,10 +58,13 @@ class Vista:
         self.botonDiligenciar.grid(column=0, row=9, columnspan=2, padx=15, pady=15)
 
         self.botonConsultar = tkinter.Button(self.root, text="Consultar por ID", command=lambda: self.boton_consultar(self.txtID.get()))
-        self.botonConsultar.grid(column=0, row=12, columnspan=2, padx=15, pady=15)
+        self.botonConsultar.grid(column=0, row=12, padx=15, pady=15)
 
         self.botonConsultarTodo = tkinter.Button(self.root, text= "Consultar Todo", command=self.boton_consultar_todo)
-        self.botonConsultarTodo.grid(column=0, row=13, columnspan=2, padx=15, pady=15)
+        self.botonConsultarTodo.grid(column=1, row=12, padx=15, pady=15)
+
+        self.botonConsultarFiltro = tkinter.Button(self.root, text="Filtrar", command=self.boton_filtrar)
+        self.botonConsultarFiltro.grid(column=0, row=14, columnspan=2, padx=15, pady=15)
 
         self.txtMaterial.bind("<KeyRelease>", lambda event: self.controladores.validar_material(event, self.txtMaterial))
         self.txtAltura.bind("<KeyRelease>", lambda event: self.controladores.validar_altura(event, self.txtAltura))
@@ -84,3 +87,21 @@ class Vista:
         estilo = self.txtEstilo.get()
         resultado = self.controladores.consultar_todo(material, altura, peso, estilo)
         print(resultado)
+
+    def boton_filtrar(self):
+        # Obtener los valores de los campos de filtro
+        material = self.txtMaterial.get()
+        altura = self.txtAltura.get()
+        peso = self.txtPeso.get()
+        estilo = self.txtEstilo.get()
+
+        # Llamar al método consultar_todo con los valores de filtro
+        resultados = self.controladores.consultar_todo(material, altura, peso, estilo)
+
+        # Mostrar los resultados en la consola
+        self.mostrar_resultados(resultados)
+
+    def mostrar_resultados(self, resultados):
+        # Imprimir los resultados en la consola
+        for resultado in resultados:
+            print(resultado)
