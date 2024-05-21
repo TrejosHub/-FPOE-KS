@@ -89,19 +89,14 @@ class Vista:
         print(resultado)
 
     def boton_filtrar(self):
-        # Obtener los valores de los campos de filtro
         material = self.txtMaterial.get()
         altura = self.txtAltura.get()
         peso = self.txtPeso.get()
         estilo = self.txtEstilo.get()
 
-        # Llamar al método consultar_todo con los valores de filtro
         resultados = self.controladores.consultar_todo(material, altura, peso, estilo)
-
-        # Mostrar los resultados en la consola
         self.mostrar_resultados(resultados)
 
     def mostrar_resultados(self, resultados):
-        # Imprimir los resultados en la consola
         for resultado in resultados:
             print(resultado)
