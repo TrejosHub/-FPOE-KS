@@ -8,13 +8,23 @@ from django.http import Http404
 
 class Silla_APIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
-        queryset = Silla.objects.all()
-        material = self.request.query_params.get('material')
-        if material is not None:
-            queryset = queryset.filter(material = material)
-        serializer = SillaSerializers(queryset, many=True)
-        return Response(serializer.data)
-
+            queryset = Silla.objects.all()
+            material = self.request.query_params.get('material')
+            altura = self.request.query_params.get('altura')
+            peso = self.request.query_params.get('peso')
+            estilo = self.request.query_params.get('estilo')
+            
+            if material is not None:
+                queryset = queryset.filter(material=material)
+            if altura is not None:
+                queryset = queryset.filter(altura=altura)
+            if peso is not None:
+                queryset = queryset.filter(peso=peso)
+            if estilo is not None:
+                queryset = queryset.filter(estilo=estilo)
+            
+            serializer = SillaSerializers(queryset, many=True)
+            return Response(serializer.data)
     def post(self, request, format=None):
         serializer = SillaSerializers(data=request.data)
         if serializer.is_valid():
