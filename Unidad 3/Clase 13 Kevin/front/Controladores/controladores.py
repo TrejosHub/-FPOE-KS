@@ -88,16 +88,15 @@ class Controladores:
         return resultado.json()
     
     def consultar_todo(self, material, altura, peso, estilo):
-        url = self.url+"?"
-
-        if material != '':
-            url = url + 'material' + str(material) + "&"
-        if altura != '':
-            url = url + 'altura' + str(altura) + "&"
-        if peso != '':
-            url = url + 'peso' + str(peso) + "&"
-        if estilo != '':
-            url = url + 'estilo' + str(estilo) + "&"
+        url = self.url + "?"
+        if material:
+            url += "material=" + material + "&"
+        if altura:
+            url += "altura=" + altura + "&"
+        if peso:
+            url += "peso=" + peso + "&"
+        if estilo:
+            url += "estilo=" + estilo + "&"
         print(url)
         resultado = requests.get(url)
         return resultado.json()
