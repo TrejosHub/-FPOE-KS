@@ -44,12 +44,12 @@ class Vista:
         self.labelEstiloOculto = tkinter.Label(self.root, text="")
         self.labelEstiloOculto.grid(column=0, row=8, columnspan=2)
 
-        self.labelID = tkinter.Label(self.root, text= "Ingrese ID para consultar: ")
+        self.labelID = tkinter.Label(self.root, text="Ingrese ID para consultar: ")
         self.labelID.grid(column=0, row=10, padx=20, pady=20)
         self.txtID = tkinter.Entry(self.root, width=30)
         self.txtID.grid(column=1, row=10)
 
-        self.labelIDOculto = tkinter.Label(self.root, text= "")
+        self.labelIDOculto = tkinter.Label(self.root, text="")
         self.labelIDOculto.grid(column=0, row=11, columnspan=2)
 
         self.controladores = Controladores(self)
@@ -57,13 +57,13 @@ class Vista:
         self.botonDiligenciar = tkinter.Button(self.root, text="Diligenciar", command=self.controladores.diligenciar)
         self.botonDiligenciar.grid(column=0, row=9, columnspan=2, padx=15, pady=15)
 
-        self.botonConsultar = tkinter.Button(self.root, text="Consultar por ID", command=lambda: self.boton_consultar(self.txtID.get()))
+        self.botonConsultar = tkinter.Button(self.root, text="Consultar por ID", command=lambda: self.controladores.boton_consultar(self.txtID.get()))
         self.botonConsultar.grid(column=0, row=12, padx=15, pady=15)
 
-        self.botonConsultarTodo = tkinter.Button(self.root, text= "Consultar Todo", command=self.boton_consultar_todo)
+        self.botonConsultarTodo = tkinter.Button(self.root, text="Consultar Todo", command=self.controladores.boton_consultar_todo)
         self.botonConsultarTodo.grid(column=1, row=12, padx=15, pady=15)
 
-        self.botonConsultarFiltro = tkinter.Button(self.root, text="Filtrar", command=self.boton_filtrar)
+        self.botonConsultarFiltro = tkinter.Button(self.root, text="Filtrar", command=self.controladores.boton_filtrar)
         self.botonConsultarFiltro.grid(column=0, row=14, columnspan=2, padx=15, pady=15)
 
         self.txtMaterial.bind("<KeyRelease>", lambda event: self.controladores.validar_material(event, self.txtMaterial))
@@ -75,28 +75,3 @@ class Vista:
         self.root.protocol("WM_DELETE_WINDOW", self.controladores.el_usuario_quiere_salir)
 
         self.root.mainloop()
-
-    def boton_consultar(self, id):
-        resultado = self.controladores.consultar(id)
-        print(resultado)
-
-    def boton_consultar_todo(self):
-        material = self.txtMaterial.get()
-        altura = self.txtAltura.get()
-        peso = self.txtPeso.get()
-        estilo = self.txtEstilo.get()
-        resultado = self.controladores.consultar_todo(material, altura, peso, estilo)
-        print(resultado)
-
-    def boton_filtrar(self):
-        material = self.txtMaterial.get()
-        altura = self.txtAltura.get()
-        peso = self.txtPeso.get()
-        estilo = self.txtEstilo.get()
-
-        resultados = self.controladores.consultar_todo(material, altura, peso, estilo)
-        self.mostrar_resultados(resultados)
-
-    def mostrar_resultados(self, resultados):
-        for resultado in resultados:
-            print(resultado)

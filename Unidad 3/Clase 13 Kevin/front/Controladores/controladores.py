@@ -83,6 +83,31 @@ class Controladores:
         print(response.status_code)
         print(response.content)
 
+    def boton_consultar(self, id):
+        resultado = self.consultar(id)
+        print(resultado)
+
+    def boton_consultar_todo(self):
+        material = self.vista.txtMaterial.get()
+        altura = self.vista.txtAltura.get()
+        peso = self.vista.txtPeso.get()
+        estilo = self.vista.txtEstilo.get()
+        resultado = self.consultar_todo(material, altura, peso, estilo)
+        print(resultado)
+
+    def boton_filtrar(self):
+        material = self.vista.txtMaterial.get()
+        altura = self.vista.txtAltura.get()
+        peso = self.vista.txtPeso.get()
+        estilo = self.vista.txtEstilo.get()
+
+        resultados = self.consultar_todo(material, altura, peso, estilo)
+        self.mostrar_resultados(resultados)
+
+    def mostrar_resultados(self, resultados):
+        for resultado in resultados:
+            print(resultado)
+
     def consultar(self, id):
         resultado = requests.get(self.url + '/' + str(id))
         return resultado.json()
