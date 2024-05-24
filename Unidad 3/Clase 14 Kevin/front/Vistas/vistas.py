@@ -1,13 +1,18 @@
 import tkinter
 import tkinter.messagebox as messagebox
 from Controladores.controladores import Controladores
+from .tabla import Tabla
 
 class Vista:
     def __init__(self):
+
+        titulos = ["Identificador", "Material", "Altura", "Peso", "Estilo"]
+        columnas = ['id', 'material', 'altura', 'peso', 'estilo']
+        data = []
+
         self.root = tkinter.Tk()
         self.root.title("API Silla")
-        self.root.geometry("700x700")
-        self.root.resizable(0, 0)
+        #self.root.geometry("1000x1000")
 
         self.labelTitulo = tkinter.Label(self.root, text="Datos de la Silla")
         self.labelTitulo.grid(column=0, row=0, padx=15, pady=15, columnspan=2)
@@ -44,7 +49,7 @@ class Vista:
         self.labelEstiloOculto = tkinter.Label(self.root, text="")
         self.labelEstiloOculto.grid(column=0, row=8, columnspan=2)
 
-        self.labelID = tkinter.Label(self.root, text="Ingrese ID para consultar: ")
+        self.labelID = tkinter.Label(self.root, text="ID: ")
         self.labelID.grid(column=0, row=10, padx=20, pady=20)
         self.txtID = tkinter.Entry(self.root, width=30)
         self.txtID.grid(column=1, row=10)
@@ -66,12 +71,42 @@ class Vista:
         self.botonConsultarFiltro = tkinter.Button(self.root, text="Filtrar", command=self.controladores.boton_filtrar)
         self.botonConsultarFiltro.grid(column=2, row=12, columnspan=2, padx=15, pady=15)
 
+        self.botonActualizar = tkinter.Button(self.root, text="Actualizar", command=lambda: self.actualizar(self.txtID.get(), self.txtMaterial.get(), self.txtAltura.get(), self.txtPeso.get(), self.txtEstilo.get()))
+        self.botonActualizar.grid(column=4, row=12, columnspan=2, padx=15, pady=15)
+
+        self.tabla = Tabla(self.root, titulos, columnas, data)
+        self.tabla.tabla.grid(column=0, row=14, columnspan=3, padx=15, pady=15)
+
+        def seleccionar_elemento(_):
+            for i in self.tabla.tabla.selection():
+                valores = self.tabla.tabla.item(i)['values']
+                self.txtID.delete(0, tkinter.END)
+                self.txtID.insert(0, valores[0])
+                self.txtMaterial.delete(0, tkinter.END)
+                self.txtMaterial.insert(0, valores[1])
+                self.txtAltura.delete(0, tkinter.END)
+                self.txtAltura.insert(0, valores[2])
+                self.txtPeso.delete(0, tkinter.END)
+                self.txtPeso.insert(0, valores[3])
+                self.txtEstilo.delete(0, tkinter.END)
+                self.txtEstilo.insert(0, valores[4])
+
+        def borrar_elemento(_):
+            for i in self.tabla.tabla.selection():
+                self.controladores.eliminar(self.tabla.tabla.item(i)['values'][0])
+                self.tabla.tabla.delete(i)
+
         self.txtMaterial.bind("<KeyRelease>", lambda event: self.controladores.validar_material(event, self.txtMaterial))
         self.txtAltura.bind("<KeyRelease>", lambda event: self.controladores.validar_altura(event, self.txtAltura))
         self.txtEstilo.bind("<KeyRelease>", lambda event: self.controladores.validar_estilo(event, self.txtEstilo))
         self.txtPeso.bind("<KeyRelease>", lambda event: self.controladores.validar_peso(event, self.txtPeso))
         self.txtID.bind("<KeyRelease>", lambda event: self.controladores.validar_id(event, self.txtID))
+        self.tabla.tabla.bind('<<TreeviewSelect>>', seleccionar_elemento)
+        self.tabla.tabla.bind('<Delete>', borrar_elemento)
 
         self.root.protocol("WM_DELETE_WINDOW", self.controladores.el_usuario_quiere_salir)
 
         self.root.mainloop()
+
+    def actualizar(self, id, material, altura, peso, estilo):
+        self.controladores.actualizar(id, material, altura, peso, estilo)
