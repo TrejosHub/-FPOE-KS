@@ -12,8 +12,7 @@ class Vista:
 
         self.root = tkinter.Tk()
         self.root.title("API Silla")
-        #self.root.geometry("1000x1000")
-
+        
         self.labelTitulo = tkinter.Label(self.root, text="Datos de la Silla")
         self.labelTitulo.grid(column=0, row=0, padx=15, pady=15, columnspan=2)
 
@@ -59,23 +58,38 @@ class Vista:
 
         self.controladores = Controladores(self)
 
-        self.botonDiligenciar = tkinter.Button(self.root, text="Diligenciar", command=self.controladores.diligenciar)
+        self.botonDiligenciar = tkinter.Button(self.root, text="Guardar", command=self.controladores.diligenciar)
         self.botonDiligenciar.grid(column=0, row=9, columnspan=2, padx=15, pady=15)
 
         self.botonConsultar = tkinter.Button(self.root, text="Consultar por ID", command=lambda: self.controladores.boton_consultar(self.txtID.get()))
-        self.botonConsultar.grid(column=0, row=12, padx=15, pady=15)
+        self.botonConsultar.grid(column=2, row=1, padx=15, pady=15)
 
         self.botonConsultarTodo = tkinter.Button(self.root, text="Consultar Todo", command=self.controladores.boton_consultar_todo)
-        self.botonConsultarTodo.grid(column=1, row=12, padx=15, pady=15)
+        self.botonConsultarTodo.grid(column=2, row=3, padx=15, pady=15)
 
-        self.botonConsultarFiltro = tkinter.Button(self.root, text="Filtrar", command=self.controladores.boton_filtrar)
-        self.botonConsultarFiltro.grid(column=2, row=12, columnspan=2, padx=15, pady=15)
+        self.botonConsultarFiltro = tkinter.Button(self.root, text="Consultar por Filtro", command=self.controladores.boton_filtrar)
+        self.botonConsultarFiltro.grid(column=2, row=5, padx=15, pady=15)
 
         self.botonActualizar = tkinter.Button(self.root, text="Actualizar", command=lambda: self.actualizar(self.txtID.get(), self.txtMaterial.get(), self.txtAltura.get(), self.txtPeso.get(), self.txtEstilo.get()))
-        self.botonActualizar.grid(column=4, row=12, columnspan=2, padx=15, pady=15)
+        self.botonActualizar.grid(column=2, row=7, padx=15, pady=15)
+
+        self.botonLimpiar = tkinter.Button(self.root, text="Limpiar Campos", command=self.limpiar_campos)
+        self.botonLimpiar.grid(column=1, row=9, padx=15, pady=15)
+
+        def borrar_elemento(_):
+            for i in self.tabla.tabla.selection():
+                self.controladores.eliminar(self.tabla.tabla.item(i)['values'][0])
+                self.tabla.tabla.delete(i)
+                self.limpiar_campos()
+                messagebox.showinfo("Éxito", "Eliminado correctamente.")
+
+        self.botonEliminar = tkinter.Button(self.root, text="Eliminar", command=lambda: borrar_elemento(None))
+        self.botonEliminar.grid(column=2, row=9, padx=15, pady=15)
 
         self.tabla = Tabla(self.root, titulos, columnas, data)
-        self.tabla.tabla.grid(column=0, row=14, columnspan=3, padx=15, pady=15)
+        self.tabla.tabla.grid(column=0, row=11, columnspan=3, padx=15, pady=15)
+
+        self.controladores.boton_consultar_todo()
 
         def seleccionar_elemento(_):
             for i in self.tabla.tabla.selection():
@@ -91,11 +105,6 @@ class Vista:
                 self.txtEstilo.delete(0, tkinter.END)
                 self.txtEstilo.insert(0, valores[4])
 
-        def borrar_elemento(_):
-            for i in self.tabla.tabla.selection():
-                self.controladores.eliminar(self.tabla.tabla.item(i)['values'][0])
-                self.tabla.tabla.delete(i)
-
         self.txtMaterial.bind("<KeyRelease>", lambda event: self.controladores.validar_material(event, self.txtMaterial))
         self.txtAltura.bind("<KeyRelease>", lambda event: self.controladores.validar_altura(event, self.txtAltura))
         self.txtEstilo.bind("<KeyRelease>", lambda event: self.controladores.validar_estilo(event, self.txtEstilo))
@@ -110,3 +119,11 @@ class Vista:
 
     def actualizar(self, id, material, altura, peso, estilo):
         self.controladores.actualizar(id, material, altura, peso, estilo)
+
+    def limpiar_campos(self):
+        self.txtMaterial.delete(0, tkinter.END)
+        self.txtAltura.delete(0, tkinter.END)
+        self.txtEstilo.delete(0, tkinter.END)
+        self.txtPeso.delete(0, tkinter.END)
+        self.txtID.delete(0, tkinter.END)
+        self.txtMaterial.focus_set()
