@@ -1,4 +1,4 @@
-#CLASE 11 KEVIN
+#CLASE 13 KEVIN TREJOS
 from Vistas.vistas import Vista
 class Main():
 
