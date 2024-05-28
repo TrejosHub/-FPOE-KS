@@ -201,17 +201,18 @@ class ValidarRegistarClientes:
         self.vista.tabla.refrescar(data)
 
     def boton_consultar_cedula(self, cedula):
-        nombre = self.vista.txtNombre.get()
-        apellido = self.vista.txtApellido.get()
         cedula = self.vista.txtCedula.get()
-        telefono = self.vista.txtTelefono.get()
-        correo = self.vista.txtCorreo.get()
 
         data = []
-        resultado = self.consultar_todo_clientes(nombre, apellido, cedula, telefono, correo)
+        resultado = self.filtrar_cedula_cliente(cedula)
         for elemento in resultado:
             data.append((elemento.get('id'), elemento.get('nombre'), elemento.get('apellido'), elemento.get('cedula'), elemento.get('telefono'), elemento.get('correo')))
         self.vista.tabla.refrescar(data)
+
+        if resultado:
+            messagebox.showinfo("Exito", "Cliente Encontrado")
+        else:
+            messagebox.showwarning("Error", "Cliente no encontrado")
 
         self.vista.txtNombre.delete(0, tkinter.END)
         self.vista.txtApellido.delete(0, tkinter.END)
@@ -234,6 +235,11 @@ class ValidarRegistarClientes:
             data.append((elemento.get('id'), elemento.get('nombre'), elemento.get('apellido'), elemento.get('cedula'), elemento.get('telefono'), elemento.get('correo')))
         self.vista.tabla.refrescar(data)
 
+        if resultado:
+            messagebox.showinfo("Exito", "Cliente Encontrado")
+        else:
+            messagebox.showwarning("Error", "Cliente no encontrado")
+
         self.vista.txtNombre.delete(0, tkinter.END)
         self.vista.txtApellido.delete(0, tkinter.END)
         self.vista.txtCedula.delete(0, tkinter.END)
@@ -245,3 +251,12 @@ class ValidarRegistarClientes:
     def boton_eliminar_cliente(self, id):
         resultado = requests.delete(self.url + '/' + str(id))
         return resultado.status_code
+
+    def filtrar_cedula_cliente(self, cedula):
+        url = self.url + "?"
+        if cedula:
+            url += "cedula=" + cedula + "&"
+
+        print(url)
+        resultado = requests.get(url)
+        return resultado.json()

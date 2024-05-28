@@ -68,28 +68,31 @@ class InterfazRegistrarCliente:
         self.lblOcultoCorreo = tk.Label(self.ventana, text="", fg="red")
         self.lblOcultoCorreo.grid(row=10, column=0, columnspan=2)
 
-        self.lblIDCliente = tk.Label(self.ventana, text= "ID", padx=20, pady=15)
+        self.lblIDCliente = tk.Label(self.ventana, text= "ID:", padx=20, pady=15)
         self.lblIDCliente.grid(row=11, column=0)
         self.txtIDCliente = tk.Entry(self.ventana, width=20)
         self.txtIDCliente.grid(row=11, column=1)
 
-        self.btnGuardar = tk.Button(self.ventana, text="Guardar", command=self.controladores.diligenciar_cliente)
-        self.btnGuardar.grid(row=12, column=0, columnspan=2)
+        self.btnGuardar = tk.Button(self.ventana, text="Guardar", padx=10, pady=5, command=self.controladores.diligenciar_cliente)
+        self.btnGuardar.grid(row=12, column=0, columnspan=2, padx=10, pady=10)
 
-        self.btnConsultarTodo = tk.Button(self.ventana, text="Consultar Todo", command=self.controladores.boton_consultar_todo_cliente)
-        self.btnConsultarTodo.grid(row=13, column=0, columnspan=2)
+        self.btnConsultarTodo = tk.Button(self.ventana, text="Consultar Todos los Clientes", command=self.controladores.boton_consultar_todo_cliente)
+        self.btnConsultarTodo.grid(row=6, column=2, columnspan=2)
 
-        self.btnConsultarCedula = tk.Button(self.ventana, text="Consultar Cedula", command=lambda: self.controladores.boton_consultar_cedula(self.txtCedula.get()))
-        self.btnConsultarCedula.grid(row=14, column=0,columnspan=2)
+        self.btnConsultarCedula = tk.Button(self.ventana, text="Consultar Cliente por Cédula", command=lambda: self.controladores.boton_consultar_cedula(self.txtCedula.get()))
+        self.btnConsultarCedula.grid(row=5, column=2,columnspan=2)
 
-        self.btnFiltrarCliente = tk.Button(self.ventana, text="Filtrar", command=self.controladores.boton_filtrar_cliente)
+        self.btnFiltrarCliente = tk.Button(self.ventana, text="Filtrar Cliente(s)", command=self.controladores.boton_filtrar_cliente)
         self.btnFiltrarCliente.grid(row=2, column=2, columnspan=2)
 
-        self.btnActualizarCliente = tk.Button(self.ventana, text="Actualizar", command=lambda: self.actualizar_cliente(self.txtIDCliente.get(), self.txtNombre.get(), self.txtApellido.get(), self.txtCedula.get(), self.txtTelefono.get(), self.txtCorreo.get()))
+        self.btnActualizarCliente = tk.Button(self.ventana, text="Actualizar Cliente", command=lambda: self.actualizar_cliente(self.txtIDCliente.get(), self.txtNombre.get(), self.txtApellido.get(), self.txtCedula.get(), self.txtTelefono.get(), self.txtCorreo.get()))
         self.btnActualizarCliente.grid(row=3, column=2, columnspan=2)
 
-        self.btnLimpiarCampos = tk.Button(self.ventana, text="Limpiar", command= self.limpiar_campos)
-        self.btnLimpiarCampos.grid(row=6, column=2, columnspan=2)
+        self.btnLimpiarCampos = tk.Button(self.ventana, text="Limpiar Campos", padx=10, pady=5, command= self.limpiar_campos)
+        self.btnLimpiarCampos.grid(row=12, column=1, columnspan=2, padx=10, pady=10)
+
+        self.btnInformacion = tk.Button(self.ventana, text="Información !", command=self.informacion, padx=10, pady=5)
+        self.btnInformacion.grid(row=0, column=2, padx=10, pady=10)
         
     def seleccionar_elementos_cliente(self, _):
         for i in self.tabla.tabla.selection():
@@ -126,3 +129,5 @@ class InterfazRegistrarCliente:
         self.txtIDCliente.delete(0, tkinter.END)
         self.txtNombre.focus_set()
 
+    def informacion(self):
+        messagebox.showinfo("Información", "Para seleccionar un cliente dar click al cliente requerido en la tabla.\nPara eliminar un cliente presionar la tecla 'Suprimir' de su teclado una vez seleccionado el cliente.")
