@@ -66,23 +66,26 @@ class InterfazRegistrarServicio:
         self.txtIDServicio = tk.Entry(self.ventana, width=20)
         self.txtIDServicio.grid(row=9, column=1)
 
-        self.btnGuardar = tk.Button(self.ventana, text="Guardar", command=self.controladores.diligenciarServicio)
-        self.btnGuardar.grid(row=10, column=0, columnspan=2)
+        self.btnGuardar = tk.Button(self.ventana, text="Guardar", padx=10, pady=5, command=self.controladores.diligenciarServicio)
+        self.btnGuardar.grid(row=10, column=0, columnspan=2, padx=10, pady=10)
 
-        self.btnConsultarTodo = tk.Button(self.ventana, text="Consultar Todo", command= self.controladores.boton_consultar_todo_servicio)
-        self.btnConsultarTodo.grid(row=11, column=0, columnspan=2)
+        self.btnConsultarTodo = tk.Button(self.ventana, text="Consultar Todos los Servicios", command= self.controladores.boton_consultar_todo_servicio)
+        self.btnConsultarTodo.grid(row=4, column=2, columnspan=2)
 
-        self.btnConsultarCedulaServicio = tk.Button(self.ventana, text="Consultar Cedula Servicio", command=lambda: self.controladores.boton_consultar_cedula_servicio(self.txtCedulaServicio.get()))
-        self.btnConsultarCedulaServicio.grid(row=14, column=0,columnspan=2)
+        self.btnConsultarCedulaServicio = tk.Button(self.ventana, text="Consultar Servicio por Cédula del Cliente", command=lambda: self.controladores.boton_consultar_cedula_servicio(self.txtCedulaServicio.get()))
+        self.btnConsultarCedulaServicio.grid(row=3, column=2,columnspan=2)
 
-        self.btnFiltrarServicios = tk.Button(self.ventana, text="Filtrar", command= self.controladores.boton_filtrar_servicio)
-        self.btnFiltrarServicios.grid(row=2, column=2, columnspan=2)
+        self.btnFiltrarServicios = tk.Button(self.ventana, text="Filtrar Servicio(s)", command= self.controladores.boton_filtrar_servicio)
+        self.btnFiltrarServicios.grid(row=6, column=2, columnspan=2)
 
-        self.btnActualizarServicio = tk.Button(self.ventana, text="Actualizar", command=lambda: self.actualizar_servicio(self.txtIDServicio.get(), self.txtNombreServicio.get(), self.txtCedulaServicio, self.txtDescripcion.get(), self.txtValor.get()))
-        self.btnActualizarServicio.grid(row=4, column=2, columnspan=2)
+        self.btnActualizarServicio = tk.Button(self.ventana, text="Actualizar Servicio", command=lambda: self.actualizar_servicio(self.txtIDServicio.get(), self.txtNombreServicio.get(), self.txtCedulaServicio, self.txtDescripcion.get(), self.txtValor.get()))
+        self.btnActualizarServicio.grid(row=5, column=2, columnspan=2)
 
-        self.btnLimpiarCampos = tk.Button(self.ventana, text="Limpiar", command= self.limpiar_campos)
-        self.btnLimpiarCampos.grid(row=6, column=2, columnspan=2)
+        self.btnLimpiarCampos = tk.Button(self.ventana, text="Limpiar Campos", padx=10, pady=5, command= self.limpiar_campos)
+        self.btnLimpiarCampos.grid(row=10, column=1, columnspan=2, padx=10, pady=10)
+
+        self.btnInformacion = tk.Button(self.ventana, text="Información !", command=self.informacion, padx=10, pady=5)
+        self.btnInformacion.grid(row=0, column=2, padx=10, pady=10)
 
     def seleccionar_elementos_servicio(self, _):
         for i in self.tabla.tabla.selection():
@@ -115,3 +118,6 @@ class InterfazRegistrarServicio:
         self.txtValor.delete(0, tkinter.END)
         self.txtIDServicio.delete(0, tkinter.END)
         self.txtNombreServicio.focus_set()
+
+    def informacion(self):
+        messagebox.showinfo("Información", "Para seleccionar un servicio dar click al servicio requerido en la tabla.\nPara eliminar un servicio presionar la tecla 'Suprimir' de su teclado una vez seleccionado el servicio.")

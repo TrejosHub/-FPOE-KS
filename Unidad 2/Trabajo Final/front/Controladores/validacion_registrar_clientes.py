@@ -201,26 +201,28 @@ class ValidarRegistarClientes:
         self.vista.tabla.refrescar(data)
 
     def boton_consultar_cedula(self, cedula):
-        cedula = self.vista.txtCedula.get()
+        cedula = self.vista.txtCedula.get().strip()
 
-        data = []
+        if not cedula.isdigit() or not cedula:
+            messagebox.showwarning("Error", "La cédula debe ser un número o la ingresó en el campo equivocado.\nVerifique nuevamente")
+            return
+
         resultado = self.filtrar_cedula_cliente(cedula)
+        
+        data = []
         for elemento in resultado:
             data.append((elemento.get('id'), elemento.get('nombre'), elemento.get('apellido'), elemento.get('cedula'), elemento.get('telefono'), elemento.get('correo')))
+        
         self.vista.tabla.refrescar(data)
 
         if resultado:
-            messagebox.showinfo("Exito", "Cliente Encontrado")
+            messagebox.showinfo("Éxito", "Cliente Encontrado")
         else:
-            messagebox.showwarning("Error", "Cliente no encontrado")
+            messagebox.showwarning("Error", "Cliente NO Encontrado")
 
-        self.vista.txtNombre.delete(0, tkinter.END)
-        self.vista.txtApellido.delete(0, tkinter.END)
         self.vista.txtCedula.delete(0, tkinter.END)
-        self.vista.txtTelefono.delete(0, tkinter.END)
-        self.vista.txtCorreo.delete(0, tkinter.END)
-        self.vista.txtIDCliente.delete(0, tkinter.END)
         self.vista.txtNombre.focus_set()
+
 
     def boton_filtrar_cliente(self):
         nombre = self.vista.txtNombre.get()

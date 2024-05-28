@@ -83,10 +83,10 @@ class InterfazRegistrarCliente:
         self.btnConsultarCedula.grid(row=5, column=2,columnspan=2)
 
         self.btnFiltrarCliente = tk.Button(self.ventana, text="Filtrar Cliente(s)", command=self.controladores.boton_filtrar_cliente)
-        self.btnFiltrarCliente.grid(row=2, column=2, columnspan=2)
+        self.btnFiltrarCliente.grid(row=9, column=2, columnspan=2)
 
         self.btnActualizarCliente = tk.Button(self.ventana, text="Actualizar Cliente", command=lambda: self.actualizar_cliente(self.txtIDCliente.get(), self.txtNombre.get(), self.txtApellido.get(), self.txtCedula.get(), self.txtTelefono.get(), self.txtCorreo.get()))
-        self.btnActualizarCliente.grid(row=3, column=2, columnspan=2)
+        self.btnActualizarCliente.grid(row=8, column=2, columnspan=2)
 
         self.btnLimpiarCampos = tk.Button(self.ventana, text="Limpiar Campos", padx=10, pady=5, command= self.limpiar_campos)
         self.btnLimpiarCampos.grid(row=12, column=1, columnspan=2, padx=10, pady=10)

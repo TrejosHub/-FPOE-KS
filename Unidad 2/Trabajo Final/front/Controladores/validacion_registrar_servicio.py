@@ -8,6 +8,7 @@ class ValidarRegistarServicios:
         self.vista = vista
         self.servicio = Servicios("", "", "", "")
         self.url = "http://localhost:8000/v1/servicio"
+        self.url_clientes = "http://localhost:8000/v1/cliente"
 
     def validar_nombre_servicio(self, event, widget):
         nombreServicioValidado = widget.get()
@@ -60,6 +61,22 @@ class ValidarRegistarServicios:
 
         if not valor.isdigit():
             messagebox.showerror("Error", "El valor debe ser un número.")
+            return
+        
+        response = requests.get(self.url_clientes)
+        if response.status_code != 200:
+            messagebox.showerror("Error", "Error al obtener la lista de clientes.")
+            return
+        clientes = response.json()
+
+        cedula_existe = False
+        for cliente in clientes:
+            if cliente['cedula'] == int(cedula):
+                cedula_existe = True
+                break
+
+        if not cedula_existe:
+            messagebox.showerror("Error", "La cédula ingresada no corresponde a un cliente registrado.")
             return
 
         self.servicio.nombre_servicio.set(nombre)
@@ -172,22 +189,24 @@ class ValidarRegistarServicios:
         self.vista.tabla.refrescar(data)
 
     def boton_consultar_cedula_servicio(self, cedula):
-        nombre_servicio = self.vista.txtNombreServicio.get()
         cedula = self.vista.txtCedulaServicio.get()
-        descripcion = self.vista.txtDescripcion.get()
-        valor = self.vista.txtValor.get()
+
+        if not cedula.isdigit() or not cedula:
+            messagebox.showwarning("Error", "La cédula debe ser un número o la ingresó en el campo equivocado.\nVerifique nuevamente")
+            return
 
         data = []
-        resultado = self.consultar_todo_servicio(nombre_servicio, cedula, descripcion, valor)
+        resultado = self.filtrar_cedula_servicio(cedula)
         for elemento in resultado:
             data.append((elemento.get('id'), elemento.get('nombre_servicio'), elemento.get('cedula'), elemento.get('descripcion'), elemento.get('valor')))
         self.vista.tabla.refrescar(data)
 
-        self.vista.txtNombreServicio.delete(0, tkinter.END)
+        if resultado:
+            messagebox.showinfo("Exito", "Servicio(s) Encontrado(s)")
+        else:
+            messagebox.showwarning("Error", "Servicio(s) NO Encontrado(s)")
+
         self.vista.txtCedulaServicio.delete(0, tkinter.END)
-        self.vista.txtDescripcion.delete(0, tkinter.END)
-        self.vista.txtValor.delete(0, tkinter.END)
-        self.vista.txtIDServicio.delete(0, tkinter.END)
         self.vista.txtNombreServicio.focus_set()
 
     def boton_filtrar_servicio(self):
@@ -202,6 +221,11 @@ class ValidarRegistarServicios:
             data.append((elemento.get('id'), elemento.get('nombre_servicio'), elemento.get('cedula'), elemento.get('descripcion'), elemento.get('valor')))
         self.vista.tabla.refrescar(data)
 
+        if resultado:
+            messagebox.showinfo("Exito", "Servicio Encontrado")
+        else:
+            messagebox.showwarning("Error", "Servicio NO encontrado")
+
         self.vista.txtNombreServicio.delete(0, tkinter.END)
         self.vista.txtCedulaServicio.delete(0, tkinter.END)
         self.vista.txtDescripcion.delete(0, tkinter.END)
@@ -212,3 +236,13 @@ class ValidarRegistarServicios:
     def boton_eliminar_servicio(self, id):
         resultado = requests.delete(self.url + '/' + str(id))
         return resultado.status_code
+    
+    def filtrar_cedula_servicio(self, cedula):
+        url = self.url + "?"
+
+        if cedula:
+            url += "cedula=" + cedula + "&"
+
+        print(url)
+        resultado = requests.get(url)
+        return resultado.json()
