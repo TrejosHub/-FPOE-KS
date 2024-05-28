@@ -1,19 +1,32 @@
 import tkinter as tk
+import tkinter
 import tkinter.messagebox as messagebox
 from Controladores.validacion_registrar_servicio import ValidarRegistarServicios
+from .tabla_servicio import TablaServicio
 
 class InterfazRegistrarServicio:
     def __init__(self, menu):
+
+        titulos = ["Identificador", "Nombre", "Cédula Cliente", "Descripción", "Valor"]
+        columnas = ['id', 'nombre_servicio', 'cedula', 'descripcion', 'valor']
+        data = []
+
         self.ventana = tk.Toplevel(menu)
         self.ventana.focus_set()
-        self.ventana.title("Registrar Servicio")
-        self.ventana.geometry("550x420")
-        self.ventana.resizable(0, 0)
+        self.ventana.title("Gestionar Servicios")
         self.controladores = ValidarRegistarServicios(self)
         self.crear_interfaz_servicio()
+        
+        self.tabla = TablaServicio(self.ventana, titulos, columnas, data)
+        self.tabla.tabla.grid(column=0, row=15, columnspan=3, padx=15, pady=15)
+
+        self.controladores.boton_consultar_todo_servicio()
+
+        self.tabla.tabla.bind('<<TreeviewSelect>>', self.seleccionar_elementos_servicio)
+        self.tabla.tabla.bind('<Delete>', self.borrar_servicio)
 
     def crear_interfaz_servicio(self):
-        self.titulo = tk.Label(self.ventana, text="Registrar Servicio")
+        self.titulo = tk.Label(self.ventana, text="Ingresar Datos del Servicio")
         self.titulo.grid(row=0, column=0, columnspan=2)
 
         self.lblNombreServicio = tk.Label(self.ventana, text="Nombre del Servicio: ", pady=20, padx=15)
@@ -48,5 +61,57 @@ class InterfazRegistrarServicio:
         self.lblOcultoValor = tk.Label(self.ventana, text="", fg="red")
         self.lblOcultoValor.grid(row=8, column=0, columnspan=2)
 
+        self.lblIDServicio = tk.Label(self.ventana, text= "ID", padx=20, pady=15)
+        self.lblIDServicio.grid(row=9, column=0)
+        self.txtIDServicio = tk.Entry(self.ventana, width=20)
+        self.txtIDServicio.grid(row=9, column=1)
+
         self.btnGuardar = tk.Button(self.ventana, text="Guardar", command=self.controladores.diligenciarServicio)
-        self.btnGuardar.grid(row=11, column=0, columnspan=2)
+        self.btnGuardar.grid(row=10, column=0, columnspan=2)
+
+        self.btnConsultarTodo = tk.Button(self.ventana, text="Consultar Todo", command= self.controladores.boton_consultar_todo_servicio)
+        self.btnConsultarTodo.grid(row=11, column=0, columnspan=2)
+
+        self.btnConsultarCedulaServicio = tk.Button(self.ventana, text="Consultar Cedula Servicio", command=lambda: self.controladores.boton_consultar_cedula_servicio(self.txtCedulaServicio.get()))
+        self.btnConsultarCedulaServicio.grid(row=14, column=0,columnspan=2)
+
+        self.btnFiltrarServicios = tk.Button(self.ventana, text="Filtrar", command= self.controladores.boton_filtrar_servicio)
+        self.btnFiltrarServicios.grid(row=2, column=2, columnspan=2)
+
+        self.btnActualizarServicio = tk.Button(self.ventana, text="Actualizar", command=lambda: self.actualizar_servicio(self.txtIDServicio.get(), self.txtNombreServicio.get(), self.txtCedulaServicio, self.txtDescripcion.get(), self.txtValor.get()))
+        self.btnActualizarServicio.grid(row=4, column=2, columnspan=2)
+
+        self.btnLimpiarCampos = tk.Button(self.ventana, text="Limpiar", command= self.limpiar_campos)
+        self.btnLimpiarCampos.grid(row=6, column=2, columnspan=2)
+
+    def seleccionar_elementos_servicio(self, _):
+        for i in self.tabla.tabla.selection():
+            valores = self.tabla.tabla.item(i)['values']
+            self.txtIDServicio.delete(0, tkinter.END)
+            self.txtIDServicio.insert(0, valores[0])
+            self.txtNombreServicio.delete(0, tkinter.END)
+            self.txtNombreServicio.insert(0, valores[1])
+            self.txtCedulaServicio.delete(0, tkinter.END)
+            self.txtCedulaServicio.insert(0, valores[2])
+            self.txtDescripcion.delete(0, tkinter.END)
+            self.txtDescripcion.insert(0, valores[3])
+            self.txtValor.delete(0, tkinter.END)
+            self.txtValor.insert(0, valores[4])
+
+    def borrar_servicio(self, _):
+            for i in self.tabla.tabla.selection():
+                self.controladores.boton_eliminar_servicio(self.tabla.tabla.item(i)['values'][0])
+                self.tabla.tabla.delete(i)
+                messagebox.showinfo("Éxito", "Eliminado correctamente.")
+                self.limpiar_campos()
+
+    def actualizar_servicio(self, id, nombre_servicio, cedula, descripcion, valor):
+        self.controladores.actualizar_servicio(id, nombre_servicio, cedula, descripcion, valor)
+
+    def limpiar_campos(self):
+        self.txtNombreServicio.delete(0, tkinter.END)
+        self.txtCedulaServicio.delete(0, tkinter.END)
+        self.txtDescripcion.delete(0, tkinter.END)
+        self.txtValor.delete(0, tkinter.END)
+        self.txtIDServicio.delete(0, tkinter.END)
+        self.txtNombreServicio.focus_set()

@@ -2,7 +2,6 @@ import tkinter
 import tkinter.messagebox as messagebox
 from Controladores.controladores import Controlador
 from Vistas.registrar_clientes import InterfazRegistrarCliente
-from Vistas.eliminar_clientes import InterfazEliminarClientes
 from Vistas.registrar_servicio import InterfazRegistrarServicio
 
 class Vista:
@@ -20,25 +19,12 @@ class Vista:
         self.ventana.config(menu=self.menu)
         
         self.menuClientes = tkinter.Menu(self.menu)
-        self.menu.add_cascade(label= "Gestionar Clientes", menu= self.menuClientes)
-        self.menuClientes.add_command(label= "Registrar Cliente", command= lambda: self.registrarCliente())
-        self.menuClientes.add_separator()
-        self.menuClientes.add_command(label= "Actualizar Cliente", command= lambda: self.actualizarCliente())
-        self.menuClientes.add_separator()
-        self.menuClientes.add_command(label= "Borrar Cliente", command= lambda: self.borrarCliente())
-        self.menuClientes.add_separator()
-        self.menuClientes.add_command(label= "Consultar Cliente", command= lambda: self.consultarCliente())
-
+        self.menu.add_cascade(label= "Menú Gestionar Clientes", menu= self.menuClientes)
+        self.menuClientes.add_command(label= "Gestionar Clientes", command= lambda: self.registrarCliente())
 
         self.menuServicios = tkinter.Menu(self.menu)
-        self.menu.add_cascade(label= "Gestionar Servicios", menu= self.menuServicios)
-        self.menuServicios.add_command(label= "Registrar Servicio", command= lambda: self.registrarServicio())
-        self.menuServicios.add_separator()
-        self.menuServicios.add_command(label= "Actualizar Servicio", command= lambda: self.actualizarServicio())
-        self.menuServicios.add_separator()
-        self.menuServicios.add_command(label= "Borrar Servicio", command= lambda: self.borrarServicio())
-        self.menuServicios.add_separator()
-        self.menuServicios.add_command(label= "Consultar Servicio", command= lambda: self.consultarServicio())
+        self.menu.add_cascade(label= "Menú Gestionar Servicios", menu= self.menuServicios)
+        self.menuServicios.add_command(label= "Gestionar Servicios", command= lambda: self.registrarServicio())
 
         self.menuSalir = tkinter.Menu(self.menu)
         self.menu.add_cascade(label= "Salir", menu= self.menuSalir)
@@ -54,6 +40,3 @@ class Vista:
 
     def registrarServicio(self):
         interfaz_registrar_servicio = InterfazRegistrarServicio(self.menu)
-
-    def borrarCliente(self):
-        interfaz_eliminar_cliente = InterfazEliminarClientes(self.menu)
