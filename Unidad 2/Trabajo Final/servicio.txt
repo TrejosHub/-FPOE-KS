@@ -1,0 +1,4 @@
+{'id': 6, 'nombre_servicio': 'CocaCola', 'cedula': 123456789, 'descripcion': 'nuke kola', 'valor': 5}
+{'id': 10, 'nombre_servicio': 'Lavar', 'cedula': 123456789, 'descripcion': 'lava lava lava lava', 'valor': 987}
+{'id': 12, 'nombre_servicio': 'Aguapanela y FAB', 'cedula': 777, 'descripcion': 'Aguapanela fria', 'valor': 78}
+{'id': 13, 'nombre_servicio': 'Colgate', 'cedula': 777, 'descripcion': 'Fluocardent', 'valor': 78}

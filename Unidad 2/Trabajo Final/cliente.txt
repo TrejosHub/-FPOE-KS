@@ -1,0 +1,7 @@
+{'id': 1, 'nombre': 'Juanito', 'apellido': 'Pérez', 'cedula': 123456789, 'telefono': 1234567890, 'correo': 'juan@example.com'}
+{'id': 3, 'nombre': 'Kevin', 'apellido': 'Trejos', 'cedula': 112233, 'telefono': 998877, 'correo': 'trejos@trejos.com'}
+{'id': 6, 'nombre': 'Domingo', 'apellido': 'Trejos', 'cedula': 12123232, 'telefono': 11111, 'correo': 'ggg@ggg.com'}
+{'id': 7, 'nombre': 'PipePipon', 'apellido': 'Perez', 'cedula': 6483472, 'telefono': 23265256, 'correo': 'pipe@perez.com'}
+{'id': 9, 'nombre': 'Prueba', 'apellido': 'Prueba', 'cedula': 90909, 'telefono': 223443, 'correo': 'prueba@prueba.com'}
+{'id': 11, 'nombre': 'Juan', 'apellido': 'Gonzales', 'cedula': 777, 'telefono': 232343, 'correo': 'juan@gonza.com'}
+{'id': 12, 'nombre': 'MarianoPiPe', 'apellido': 'Grajales', 'cedula': 1234, 'telefono': 1234567890, 'correo': 'marianito@gggg.com'}
